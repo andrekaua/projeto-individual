@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+</head>
+<body>
+    <h1>Cadastro</h1>
+    <form action="">
+        <label for="tipo_documento">Tipo de documento:</label><br>
+        <select id="tipo_documento" onchange="atualizarLabelDocumento()">
+            <option value="">Escolha uma opção</option>
+            <option value="cnpj">CNPJ</option>
+            <option value="cpf">CPF</option>
+        </select><br>
+
+        <label id="label_documento" for="documento">Documento:</label><br>
+        <input type="text" id="documento" name="documento"><br>
+
+        <label for="nome">Nome:</label><br>
+        <input type="text" id="nome" name="nome"><br>
+
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email"><br>
+
+        <label for="telefone">Telefone:</label><br>
+        <input type="number" id="telefone" name="telefone"><br>
+
+        <label for="local">Local:</label><br>
+        <input type="text" id="local" name="local"><br>
+
+        <label for="senha">Senha:</label><br>
+        <input type="password" id="senha" name="senha">
+        <button type="button" onclick="toggleSenha('senha')">👁</button><br>
+
+        <label for="confirmar_senha">Confirmar Senha:</label><br>
+        <input type="password" id="confirmar_senha" name="confirmar_senha">
+        <button type="button" onclick="toggleSenha('confirmar_senha')">👁</button><br>
+
+        <select name="plano" id="plano">
+            <option value="">Escolha um Plano</option>
+            <option value="Plano Free">Plano Free</option>
+            <option value="Plano Standard">Plano Standard</option>
+            <option value="Plano Premium">Plano Premium</option>
+        </select>
+    </form>
+
+    <button type="submit" onclick="enviar_cadastro()">Cadastrar</button>
+    <div id="most"></div>
+
+<script>
+function atualizarLabelDocumento() {
+    const tipo = document.getElementById("tipo_documento").value;
+    document.getElementById("label_documento").innerText = tipo === "cnpj" ? "CNPJ:" : tipo === "cpf" ? "CPF:" : "Documento:";
+}
+
+function enviar_cadastro() {
+    let tipo = document.getElementById("tipo_documento").value;
+    let documento = document.getElementById("documento").value.trim();
+    let nome = document.getElementById("nome").value.trim();
+    let email = document.getElementById("email").value.trim();
+    let telefone = document.getElementById("telefone").value.trim();
+    let local = document.getElementById("local").value.trim();
+    let senha = document.getElementById("senha").value;
+    let confirmar_senha = document.getElementById("confirmar_senha").value;
+    let plano = document.getElementById("plano").value;
+    let most = document.getElementById("most");
+
+    if (!tipo || !documento || !nome || !email || !telefone || !senha || !confirmar_senha || !plano) {
+        most.innerHTML = "Preencha todos os campos obrigatórios";
+        return;
+    }
+
+    if (tipo === "cnpj" && !local) {
+        most.innerHTML = "Campo 'Local' é obrigatório para CNPJ";
+        return;
+    }
+
+    if (nome.length < 3) {
+        most.innerHTML = "Nome deve ter pelo menos 3 letras";
+        return;
+    }
+
+    if (!/^[A-Z][a-záéíóúãõâêîôûç]+ [A-Z][a-záéíóúãõâêîôûç]+$/.test(nome)) {
+        most.innerHTML = "Digite nome e sobrenome válidos, com letras maiúsculas no início";
+        return;
+    }
+
+    if (!email.includes("@") || !email.includes(".")) {
+        most.innerHTML = "Email inválido";
+        return;
+    }
+
+    if (tipo === "cnpj" && (documento.length !== 14 || !/^\d+$/.test(documento))) {
+        most.innerHTML = "CNPJ precisa ter 14 números válidos";
+        return;
+    }
+
+    if (tipo === "cpf" && (documento.length !== 11 || !/^\d+$/.test(documento))) {
+        most.innerHTML = "CPF precisa ter 11 números válidos";
+        return;
+    }
+
+    if (telefone.length < 10 || !/^\d+$/.test(telefone)) {
+        most.innerHTML = "Telefone inválido";
+        return;
+    }
+
+    if (senha.length < 6) {
+        most.innerHTML = "Senha precisa ter pelo menos 6 caracteres";
+        return;
+    }
+
+    if (senha !== confirmar_senha) {
+        most.innerHTML = "As senhas não coincidem";
+        return;
+    }
+
+    most.innerHTML = "Cadastro válido!";
+}
+</script>
+</body>
+</html>
