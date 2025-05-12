@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/cadastro-login.css">
+    <script src="/js/login.js"></script>
+    <title>login</title>
+</head>
+<body>
+    <div class="left">
+        <a href="/html/lading/lading-page.html" id="logo">Purple</a>
+    </div>
+
+    <div class="right">
+    <form>
+        <a href="/back/cadastro-login/cadastro.html" id="cadastro">Cadastrar</a>
+        <h1>Login</h1>
+        <label for="Email">Email:</label><br>
+        <input type="text" id="Email" name="Email" placeholder="Digite seu email"><br><br>
+        <label for="senha">Senha:</label><br>
+        <input type="password" id="senha" name="senha" placeholder="Digite sua senha">
+        <div id="most"></div>
+        <button onclick="validarLogin()">Entrar</button>
+    </form>
+    
+    <div id="most"></div>
+    </div>
+</body>
+<script>
+    function validarLogin() {
+        var email = document.getElementById("Email").value.trim();
+        var senha = document.getElementById("senha").value.trim();
+
+        if (email === "" || senha === "") {
+            most.innerHTML = "Por favor, preencha todos os campos.";
+        }
+
+        if (!email.includes("@")) {
+            most.innerHTML = "Por favor, insira um email válido.";
+        }
+
+        if (senha.length < 6) {
+            most.innerHTML = "A senha deve ter pelo menos 6 caracteres."; 
+        }
+    }
+</script>
+</html>
